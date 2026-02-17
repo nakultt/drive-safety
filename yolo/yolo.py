@@ -1,13 +1,26 @@
-from ultralytics import YOLO
+from ultralytics import YOLO # type: ignore
+import cv2
 
-# Load a YOLO26n PyTorch model
-model = YOLO("yolo26n.pt")
+model = YOLO("./yolo26n_ncnn_model")
 
-# Export the model to NCNN format
-model.export(format="ncnn")  # creates 'yolo26n_ncnn_model'
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    print("Error: Could not open webcam.")
+    exit()
 
-# Load the exported NCNN model
-ncnn_model = YOLO("yolo26n_ncnn_model")
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
 
-# Run inference
-results = ncnn_model("https://ultralytics.com/images/bus.jpg")
+    results = model(frame, verbose=True)
+
+    annotated_frame = results[0].plot()
+
+    cv2.imshow("YOLO NCNN Detection", annotated_frame)
+
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
