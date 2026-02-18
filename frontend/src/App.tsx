@@ -1,12 +1,11 @@
-function App() {
+import { AuthProvider } from './context/AuthContext';
+import AppRoutes from './routes/AppRoutes';
+import './index.css';
 
+export default function App() {
   return (
-    <>
-        <h1 className="text-3xl font-bold underline bg-yellow-300">
-          Welcome to Drive Safety!
-        </h1>
-    </>
-  )
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
 }
-
-export default App
