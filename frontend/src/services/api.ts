@@ -1,13 +1,15 @@
 // api.ts
 import axios from 'axios';
 
+const base = (import.meta as any).env?.VITE_API_URL || '/api';
+
 const instance = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: base,
 });
 
 instance.interceptors.request.use(config => {
   const token = localStorage.getItem('jwt');
-  if (token) {
+  if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;

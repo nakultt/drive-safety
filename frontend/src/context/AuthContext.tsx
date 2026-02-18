@@ -4,13 +4,16 @@ import axios from '../services/api';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  // returns token on success
+  login: (email: string, password: string) => Promise<string>;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  login: async () => {},
+  login: async () => {
+    return '';
+  },
   logout: () => {},
 });
 
@@ -23,9 +26,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await axios.post('/auth/login', { email, password });
-    localStorage.setItem('jwt', res.data.token);
-    setIsAuthenticated(true);
+    try {
+      const res = await axios.post('/auth/login', { email, password });
+      const token = res.data?.token;
+      if (!token) throw new Error('Invalid server response');
+      localStorage.setItem('jwt', token);
+      setIsAuthenticated(true);
+      return token;
+    } catch (err: any) {
+      if (err.response && err.response.data) {
+        const msg = err.response.data.message || 'Invalid credentials';
+        throw new Error(msg);
+      }
+      throw new Error('Unable to connect to authentication server');
+    }
   };
 
   const logout = () => {
