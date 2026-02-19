@@ -1,5 +1,5 @@
 // AlertToast.tsx
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface AlertToastProps {
   type: 'success' | 'error' | 'warning' | 'info';

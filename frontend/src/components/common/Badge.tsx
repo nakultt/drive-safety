@@ -1,5 +1,5 @@
 // Badge.tsx
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface BadgeProps {
   color: 'primary' | 'secondary' | 'warning' | 'success' | 'danger' | 'default';

@@ -7,7 +7,6 @@ const pageTitles: Record<string, string> = {
   '/analytics': 'Analytics',
   '/offenders': 'Offenders',
   '/reports': 'Reports',
-  '/heatmap': 'Heatmap',
 };
 
 export default function Navbar() {

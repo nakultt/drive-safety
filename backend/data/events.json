@@ -1,0 +1,17 @@
+[
+  {
+    "id": "81b23c1b-be60-447a-9494-9f115ee4aa00",
+    "plateNumber": "TEST1234",
+    "violationType": "Overspeeding",
+    "location": "Main St",
+    "speed": 92,
+    "severity": "High",
+    "fine": 920,
+    "isRepeatOffender": false,
+    "imageUrl": null,
+    "plateImageUrl": null,
+    "riskScore": 65,
+    "timestamp": "2026-02-19T07:13:11.797Z",
+    "paid": false
+  }
+]
