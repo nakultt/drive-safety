@@ -7,7 +7,17 @@
     <title>frontend</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <noscript class="p-6">JavaScript is required to run this application.</noscript>
+      <div id="root-fallback" style="padding:24px; color:#6b7280;">Loading application…</div>
+    </div>
+    <script>
+      // If React fails to hydrate, keep fallback visible for troubleshooting.
+      window.addEventListener('error', function (e) {
+        const fb = document.getElementById('root-fallback');
+        if (fb) fb.textContent = 'Application failed to load — check console for details.';
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>  
