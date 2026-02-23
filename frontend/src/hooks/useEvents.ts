@@ -1,7 +1,7 @@
 // useEvents.ts
 import { useEffect, useState } from 'react';
 import { fetchEvents } from '../services/eventService';
-import { ViolationEvent } from '../types/event.types';
+import type { ViolationEvent } from '../types/event.types';
 
 export function useEvents() {
   const [events, setEvents] = useState<ViolationEvent[]>([]);

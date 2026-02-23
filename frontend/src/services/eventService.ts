@@ -1,6 +1,6 @@
 // eventService.ts
 import api from './api';
-import { ViolationEvent, EventSummary } from '../types/event.types';
+import type { ViolationEvent, EventSummary } from '../types/event.types';
 
 export const fetchEvents = async (): Promise<ViolationEvent[]> => {
   const res = await api.get('/events');

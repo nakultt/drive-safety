@@ -1,6 +1,4 @@
 // PieDistribution.tsx
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
-
 const COLORS = ['#2563eb', '#6366f1', '#f59e42', '#ef4444', '#22c55e'];
 const data = [
   { name: 'Helmet', value: 0 },
@@ -10,20 +8,19 @@ const data = [
 ];
 
 export default function PieDistribution() {
-  // TODO: Fetch real data
+  // Dependency-free summary view for distribution
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Violation Distribution</h3>
-      <ResponsiveContainer width="100%" height={220}>
-        <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} fill="#2563eb">
-            {data.map((_, idx) => (
-              <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip contentStyle={{ borderRadius: 8, fontSize: 14 }} />
-        </PieChart>
-      </ResponsiveContainer>
+      <div className="grid grid-cols-2 gap-3">
+        {data.map((d, idx) => (
+          <div key={d.name} className="flex items-center gap-3 p-3 bg-gray-50 rounded-md">
+            <div className="w-3 h-3 rounded-full" style={{ background: COLORS[idx % COLORS.length] }} />
+            <div className="flex-1 text-sm text-gray-700">{d.name}</div>
+            <div className="text-sm font-semibold text-gray-800">{d.value}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

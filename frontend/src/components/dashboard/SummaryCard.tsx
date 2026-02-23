@@ -1,5 +1,5 @@
 // SummaryCard.tsx
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 interface SummaryCardProps {
   icon: ReactNode;

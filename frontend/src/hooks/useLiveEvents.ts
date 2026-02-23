@@ -48,8 +48,14 @@ export function useLiveEvents() {
     fetchEvents()
       .then((data) => {
         if (!mounted) return;
-        setEvents(data || FALLBACK_EVENTS);
-        if (data && data.length) newestIdRef.current = data[0].id;
+        // Normalize data to an array (API may sometimes return object or string on error)
+        const normalized = Array.isArray(data)
+          ? data
+          : Array.isArray((data as any)?.data)
+          ? (data as any).data
+          : FALLBACK_EVENTS;
+        setEvents(normalized);
+        if (normalized && normalized.length) newestIdRef.current = normalized[0].id;
       })
       .catch(() => {
         // fallback to sample data when backend not available
