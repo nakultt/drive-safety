@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+motor
+pymongo
+python-multipart
+opencv-python-headless
+Pillow
+google-generativeai
+python-dotenv
+reportlab
+matplotlib
+numpy
+python-dateutil
+websockets
+pydantic-settings
