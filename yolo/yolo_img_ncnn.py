@@ -13,15 +13,18 @@ Usage:
     python yolo_img_ncnn.py
 """
 
+import os
 import cv2
 import numpy as np
 import ncnn
 import time
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # ---- Configuration ----
 PARAM_PATH = "./yolo26n_ncnn_model/model.ncnn.param"
 BIN_PATH = "./yolo26n_ncnn_model/model.ncnn.bin"
-CONFIDENCE_THRESHOLD = 0.5
+CONFIDENCE_THRESHOLD = 0.25
 NMS_THRESHOLD = 0.45
 INPUT_SIZE = (640, 640)
 
@@ -78,6 +81,76 @@ def postprocess(mat_out, scale, pad_h, pad_w, conf_threshold, nms_threshold):
     # Convert NCNN Mat to numpy array
     output = np.array(mat_out)
     
+    # YOLO end2end model output: [x1, y1, x2, y2, class_id, confidence]
+    if len(output.shape) == 2 and output.shape[1] == 6:
+        # This block handles a different output format (e.g., end-to-end detection)
+        # The original code expects a (N, 84) or (84, N) format.
+        # This heuristic attempts to determine if class_id and confidence are swapped.
+        # It also filters by confidence.
+        
+        # Create lists to store filtered results
+        filtered_boxes = []
+        filtered_confidences = []
+        filtered_class_ids = []
+
+        for det in output:
+            # Heuristic: if 5th element is small (<1.0) and 6th is large (>1.0),
+            # assume 5th is confidence and 6th is class_id.
+            # Otherwise, assume 5th is class_id and 6th is confidence.
+            if det[4] < 1.0 and det[5] > 1.0: 
+                x1, y1, x2, y2, conf, cls_id = det
+            else: 
+                x1, y1, x2, y2, cls_id, conf = det
+            
+            if conf < conf_threshold:
+                continue # Skip low confidence detections
+            
+            filtered_boxes.append([x1, y1, x2, y2])
+            filtered_confidences.append(conf)
+            filtered_class_ids.append(int(cls_id)) # Ensure class_id is integer
+
+        # Convert filtered lists back to numpy arrays for NMS
+        boxes = np.array(filtered_boxes)
+        confidences = np.array(filtered_confidences)
+        class_ids = np.array(filtered_class_ids)
+
+        # If no detections after filtering, return empty list
+        if len(boxes) == 0:
+            return []
+
+        # Convert x1, y1, x2, y2 to x, y, w, h for OpenCV NMS
+        x = boxes[:, 0]
+        y = boxes[:, 1]
+        w = boxes[:, 2] - boxes[:, 0]
+        h = boxes[:, 3] - boxes[:, 1]
+        nms_boxes = np.column_stack((x, y, w, h)).tolist()
+
+        # Run OpenCV NMS
+        indices = cv2.dnn.NMSBoxes(nms_boxes, confidences.tolist(), conf_threshold, nms_threshold)
+        
+        results = []
+        if len(indices) > 0:
+            for i in indices:
+                idx = i if isinstance(i, np.integer) or isinstance(i, int) else i[0]
+                x1, y1, x2, y2 = filtered_boxes[idx] # Use original x1,y1,x2,y2
+                conf = confidences[idx]
+                cls_id = class_ids[idx]
+                
+                # Remove padding & rescale (assuming x1,y1,x2,y2 are already in input_size scale)
+                orig_x1 = (x1 - pad_w) / scale
+                orig_y1 = (y1 - pad_h) / scale
+                orig_x2 = (x2 - pad_w) / scale
+                orig_y2 = (y2 - pad_h) / scale
+                
+                results.append({
+                    "bbox": [int(orig_x1), int(orig_y1), int(orig_x2), int(orig_y2)],
+                    "confidence": float(conf),
+                    "class_id": int(cls_id),
+                    "class_name": CLASS_NAMES[int(cls_id)] if int(cls_id) < len(CLASS_NAMES) else "unknown"
+                })
+        return results
+
+    # Original code path for (N, 84) or (84, N) output
     # Handle different shape variants (1, 84, 8400) or (84, 8400)
     if len(output.shape) == 3:
         output = output[0]  # (84, 8400)
@@ -191,8 +264,8 @@ if __name__ == "__main__":
     print("Model loaded successfully!")
 
     images = [
-        ("./images/tripleriding.jpeg", "output_ncnn_tripleriding.jpg"),
-        ("./images/elephant.jpeg", "output_ncnn_elephant.jpg"),
+        (os.path.join(SCRIPT_DIR, "images", "tripleriding.jpeg"), os.path.join(SCRIPT_DIR, "output_ncnn_tripleriding.jpg")),
+        (os.path.join(SCRIPT_DIR, "images", "elephant.jpeg"), os.path.join(SCRIPT_DIR, "output_ncnn_elephant.jpg")),
     ]
 
     for img_path, out_path in images:
