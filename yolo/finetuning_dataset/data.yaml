@@ -1,0 +1,9 @@
+# Pothole Detection Dataset - YOLO Training Config
+# Images are in each split folder, labels in split/labels/
+
+train: train
+val: valid
+test: test
+
+nc: 1
+names: ['pothole']
