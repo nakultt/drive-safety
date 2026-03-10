@@ -9,5 +9,40 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <noscript class="p-6">JavaScript is required to run this application.</noscript>
+      <div id="root-fallback" style="padding:24px; color:#6b7280;">Loading application…</div>
+    </div>
+    <script>
+      // Show detailed errors in the fallback UI for easier debugging.
+      function showFallback(msg) {
+        const fb = document.getElementById('root-fallback');
+        if (fb) {
+          fb.textContent = String(msg).slice(0, 2000);
+          fb.style.whiteSpace = 'pre-wrap';
+          fb.style.color = '#b91c1c';
+        }
+      }
+
+      window.addEventListener('error', function (e) {
+        showFallback(`Error: ${e.message} at ${e.filename}:${e.lineno}:${e.colno}`);
+        console.error(e.error || e.message || e);
+      });
+
+      window.addEventListener('unhandledrejection', function (ev) {
+        showFallback('Unhandled Rejection: ' + (ev.reason && ev.reason.message ? ev.reason.message : String(ev.reason)));
+        console.error('Unhandled rejection', ev.reason);
+      });
+
+      // Dynamically import the app module so we can catch module-load errors and show them.
+      (async function loadApp() {
+        try {
+          await import('/src/main.tsx');
+        } catch (err) {
+          showFallback(err?.message || String(err));
+          console.error('Failed to load /src/main.tsx', err);
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -1,12 +1,11 @@
-function App() {
+import AppRoutes from './routes/AppRoutes';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import './index.css';
 
+export default function App() {
   return (
-    <>
-        <h1 className="text-3xl font-bold underline bg-yellow-300">
-          Welcome to Drive Safety!
-        </h1>
-    </>
-  )
+    <ErrorBoundary>
+      <AppRoutes />
+    </ErrorBoundary>
+  );
 }
-
-export default App
