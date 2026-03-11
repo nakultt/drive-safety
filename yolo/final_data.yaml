@@ -1,0 +1,26 @@
+path: c:/Users/ADMIN/OneDrive/Documents/drive-safety/yolo/final_merged_dataset
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 19
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  4: bus
+  5: truck
+  6: bird
+  7: cat
+  8: dog
+  9: horse
+  10: sheep
+  11: cow
+  12: elephant
+  13: bear
+  14: zebra
+  15: giraffe
+  16: pothole
+  17: with_helmet
+  18: without_helmet
