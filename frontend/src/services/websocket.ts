@@ -1,1 +1,1 @@
-WebSocket client setup for dashboard.
+// WebSocket client setup for dashboard.
