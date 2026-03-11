@@ -21,8 +21,11 @@ GPS_LNG = float(os.getenv("PACER_GPS_LNG", "80.2707"))
 LOCATION_LABEL = os.getenv("PACER_LOCATION_LABEL", "Deployment Location")
 
 # ─── YOLO Model ──────────────────────────────────────────────────────────────────
-MODEL_PATH = os.getenv("PACER_MODEL_PATH", "./yolo26n_ncnn_model")
+MODEL_DIR = os.getenv("PACER_MODEL_DIR", "./yolo26n_ncnn_model")
+PARAM_PATH = os.path.join(MODEL_DIR, "model.ncnn.param")
+BIN_PATH = os.path.join(MODEL_DIR, "model.ncnn.bin")
 CONFIDENCE_THRESHOLD = float(os.getenv("PACER_CONFIDENCE", "0.45"))
+NMS_THRESHOLD = float(os.getenv("PACER_NMS", "0.45"))
 INPUT_SIZE = int(os.getenv("PACER_INPUT_SIZE", "640"))
 
 # ─── Detection Loop ─────────────────────────────────────────────────────────────
