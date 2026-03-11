@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { api } from '../services/api';
-import { Search, ShieldAlert, FileText, ChevronRight, X } from 'lucide-react';
+import { Search, ShieldAlert, FileText, ChevronRight, X, CarFront } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Vehicles() {

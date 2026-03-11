@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer,
   LineChart, Line, AreaChart, Area, Cell
 } from 'recharts';
-import { BarChart3, TrendingUp, MapPin, Map, Video } from 'lucide-react';
+import { BarChart3, TrendingUp, MapPin, Map, Video, Camera } from 'lucide-react';
 
 export default function Analytics() {
   const [period, setPeriod] = useState('7d');

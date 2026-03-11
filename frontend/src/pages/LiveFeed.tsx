@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useViolationsWebSocket } from '../hooks/useWebSocket';
 import { API_BASE_URL } from '../services/api';
-import { ShieldCheck, MapPin, Camera, CarFront, FileText } from 'lucide-react';
+import { ShieldCheck, MapPin, Camera, CarFront, FileText, Radio } from 'lucide-react';
 
 export default function LiveFeed() {
   const { violations, isConnected } = useViolationsWebSocket();
