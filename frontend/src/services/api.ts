@@ -77,4 +77,10 @@ export const api = {
 
   // Live
   getLiveStatus: () => fetchApi<any>('/api/live/status'),
+  get: (endpoint: string) => fetchApi<any>(endpoint).then(data => ({ data })),
+  post: (endpoint: string, body: any) => fetchApi<any>(endpoint, { method: 'POST', body: JSON.stringify(body) }).then(data => ({ data })),
+  put: (endpoint: string, body: any) => fetchApi<any>(endpoint, { method: 'PUT', body: JSON.stringify(body) }).then(data => ({ data })),
+  delete: (endpoint: string) => fetchApi<any>(endpoint, { method: 'DELETE' }).then(data => ({ data })),
 };
+
+export default api;
