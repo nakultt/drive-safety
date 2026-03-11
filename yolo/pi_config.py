@@ -6,7 +6,7 @@ All settings for the Raspberry Pi edge detection unit.
 import os
 
 # ─── Backend Server ──────────────────────────────────────────────────────────────
-BACKEND_URL = os.getenv("PACER_BACKEND_URL", "http://localhost:8000")
+BACKEND_URL = os.getenv("PACER_BACKEND_URL", "https://drive-safety.onrender.com")
 EVENTS_ENDPOINT = f"{BACKEND_URL}/api/events"
 BATCH_ENDPOINT = f"{BACKEND_URL}/api/events/batch"
 

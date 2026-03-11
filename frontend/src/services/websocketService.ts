@@ -1,9 +1,11 @@
 // websocketService.ts
 let ws: WebSocket | null = null;
 
+import { WS_BASE_URL } from './api';
+
 export function connectWebSocket(onMessage: (data: any) => void) {
   try {
-    ws = new WebSocket('ws://localhost:8000/ws/events');
+    ws = new WebSocket(`${WS_BASE_URL}/ws/events`);
     ws.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);

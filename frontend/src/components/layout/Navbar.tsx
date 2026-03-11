@@ -10,6 +10,7 @@ const pageTitles: Record<string, string> = {
 };
 
 import { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../../services/api';
 
 export default function Navbar() {
   const { pathname } = useLocation();
@@ -17,7 +18,7 @@ export default function Navbar() {
 
   useEffect(() => {
     let mounted = true;
-    fetch('http://localhost:8000/api/health')
+    fetch(`${API_BASE_URL}/api/health`)
       .then((r) => r.json())
       .then(() => mounted && setApiOk(true))
       .catch(() => mounted && setApiOk(false));
