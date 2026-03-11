@@ -28,7 +28,7 @@ def main():
     # Train the model
     results = model.train(
         data=str(DATA_YAML),
-        epochs=50,
+        epochs=10,
         imgsz=640,
         batch=8,
         name="merged_pothole_helmet",
@@ -36,6 +36,7 @@ def main():
         save=True,
         plots=True,
         verbose=True,
+        device=0,
     )
     
     print("\nTraining complete!")

@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/Github/drive-safety/yolo/runs/mlflow/722514388850540992/61564f78357e4a5aa0ad86dc72256360/artifacts
+end_time: 1773155541416
+entry_point_name: ''
+experiment_id: '722514388850540992'
+lifecycle_stage: active
+run_id: 61564f78357e4a5aa0ad86dc72256360
+run_name: merged_pothole_helmet
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773154963093
+status: 3
+tags: []
+user_id: nakul
